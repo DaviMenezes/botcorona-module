@@ -1,0 +1,13 @@
+{
+    "name": "Corona",
+    "alias": "corona",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Corona\\Providers\\CoronaServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
