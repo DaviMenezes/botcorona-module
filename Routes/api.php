@@ -20,7 +20,7 @@ prefix('corona')->group(
         Route::get('/status/total', 'StatusController@total');
         Route::match(['get', 'post'], '/status', 'StatusController@create');
 
-        Route::post('/status/update', 'StatusController@update');
+        Route::post('/status/update/{id}', 'StatusController@update');
         Route::get('/statuses/page/{page}', 'StatusController@byPage');
         Route::get('/statuses/page/{page?}/limit/{limit?}/order/{order?}/direction/{direction?}', 'StatusController@byPage');
         Route::get('/statuses[/order/{order}/direction/{direction}/limit/{limit}]', 'StatusController@index');

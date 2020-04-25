@@ -3,6 +3,7 @@ namespace Modules\Corona\Entities;
 
 use Carbon\Carbon;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Modules\ModuleBase\Repository\RepositoryBase;
 use stdClass;
 
@@ -108,17 +109,16 @@ class StatusRepository extends RepositoryBase
 
     /**
      * @param array|null $country_ids
-     * @return Response
      */
     public function getDeathRank($country_ids = null)
     {
-        return $this->exec(function () use ($country_ids) {
-            $query = $this->domain->modelClass()::query()->select(['country_id', 'confirmed', 'recovered', 'deaths']);
-            if ($country_ids) {
-                $query->whereNotIn('country_id', $country_ids);
-            }
-            return $query->orderBy('deaths', 'desc')
-            ->limit(1)->first();
-        });
+        $query = $this->domain->modelClass()::query()->select(['country_id', 'confirmed', 'recovered', 'deaths']);
+        if ($country_ids) {
+            $query->whereNotIn('country_id', $country_ids);
+        }
+        $query->orderBy('deaths', 'desc')->limit(1);
+
+        return $query->first();
+
     }
 }

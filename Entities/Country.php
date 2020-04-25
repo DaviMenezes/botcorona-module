@@ -2,7 +2,6 @@
 
 namespace Modules\Corona\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 use Modules\ModuleBase\Domain\DomainBase;
 
 /**
@@ -12,11 +11,6 @@ use Modules\ModuleBase\Domain\DomainBase;
  */
 class Country extends DomainBase
 {
-    public function repository()
-    {
-        return $this->repository = $this->repository ?? new CountryRepository($this);
-    }
-
     /**
      * @inheritDoc
      */

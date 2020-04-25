@@ -37,7 +37,7 @@ class StatusController extends Controller
 
     public function update()
     {
-        return (new Status)->repository()->fill(request()->all())->update();
+        return (new Status)->repository()->update(request()->all());
     }
 
     public function byPage()

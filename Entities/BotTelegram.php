@@ -3,8 +3,8 @@
 namespace Modules\Corona\Entities;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Telegram;
-
 
 class BotTelegram
 {
@@ -18,25 +18,24 @@ class BotTelegram
         } else {
             return '{"status":"ok", "message": "nao tem chat para este pais"}';
         }
-        $death_prediction_sub0 = $status['deaths'];
-        $death_prediction_sub1 = (new Status)->repository()->getDeathsInSubDay(1, $status['country_id']);
-        $death_prediction_sub2 = (new Status)->repository()->getDeathsInSubDay(2, $status['country_id']);
-        $death_prediction_sub3 = (new Status)->repository()->getDeathsInSubDay(3, $status['country_id']);
-
-        $param0 = $death_prediction_sub0 - $death_prediction_sub1;
-        $param1 = $death_prediction_sub1 - $death_prediction_sub2;
-        $param2 = $death_prediction_sub2 - $death_prediction_sub3;
-        if ($param0 >= $param1) {
-            $death_prediction = $param0 + ($param0 - $param1) + ($param1 - $param2);
-        }
-        else {
-            $death_prediction = $param0 + ($param1 - $param0) + ($param1 - $param2);
-        }
+//        $death_prediction_sub0 = $status['deaths'];
+//        $death_prediction_sub1 = (new Status)->repository()->getDeathsInSubDay(1, $status['country_id']);
+//        $death_prediction_sub2 = (new Status)->repository()->getDeathsInSubDay(2, $status['country_id']);
+//        $death_prediction_sub3 = (new Status)->repository()->getDeathsInSubDay(3, $status['country_id']);
+//
+//        $param0 = $death_prediction_sub0 - $death_prediction_sub1;
+//        $param1 = $death_prediction_sub1 - $death_prediction_sub2;
+//        $param2 = $death_prediction_sub2 - $death_prediction_sub3;
+//        if ($param0 >= $param1) {
+//            $death_prediction = $param0 + ($param0 - $param1) + ($param1 - $param2);
+//        }
+//        else {
+//            $death_prediction = $param0 + ($param1 - $param0) + ($param1 - $param2);
+//        }
 
         $telegram = new Telegram(env('TELEGRAM_BOT_KEY'));
 
-
-        $content_file = file_get_contents('https://covid19.mathdro.id/api/og');
+        $content_file = file_get_contents(env('TELEGRAM_API_IMAGE_TODAY'));
         if ($content_file !== false) {
             file_put_contents(storage_path('app/public/img.png'), $content_file);
         }
@@ -55,9 +54,9 @@ class BotTelegram
         if (isset($status['deaths'])) {
             $message .= "Mortes: ".$status['deaths'];
         }
-        if (Carbon::now()->hour <= -1 and is_integer($death_prediction)) {
-            $message .= " (estimativa para hoje): +- $death_prediction";
-        }
+//        if (Carbon::now()->hour <= -1 and is_integer($death_prediction)) {
+//            $message .= " (estimativa para hoje): +- $death_prediction";
+//        }
         $message .= "\n";
         if (isset($status['active'])) {
             $message .= "Contaminados: ".$status['active']." \n\n";
@@ -78,7 +77,7 @@ class BotTelegram
 
         $content = array('chat_id' => $chat_id, 'text' => $message);
         $result = $telegram->sendMessage($content);
-        $result['death_prediction'] = $death_prediction;
+//        $result['death_prediction'] = $death_prediction;
 
         return json_encode($result);
     }
