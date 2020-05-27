@@ -28,7 +28,7 @@ class CountryController extends BaseController
     /**
      * @inheritDoc
      */
-    public function entityClass()
+    public function domainClass()
     {
         return Country::class;
     }

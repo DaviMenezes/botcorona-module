@@ -12,6 +12,4 @@
 */
 
 Route::prefix('corona')->group(function() {
-    Route::get('/', 'CoronaController@index');
-    Route::get('/countries', 'CountryController@all');
 });
